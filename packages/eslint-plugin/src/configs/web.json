@@ -1,6 +1,6 @@
 {
   "extends": [
-    "plugin:@acium/eslint-plugin/base",
+    "plugin:@levi/eslint-plugin/base",
     "plugin:vue/vue3-recommended"
   ],
   "ignorePatterns": [
