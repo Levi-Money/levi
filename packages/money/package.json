@@ -1,0 +1,25 @@
+{
+    "name": "@levi/money",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "serve": "vite preview",
+        "lint": "eslint --ext .js,.vue ."
+    },
+    "eslintConfig": {
+      "extends": [
+        "plugin:@levi/web"
+      ]
+    },
+    "dependencies": {
+      "vue": "^3.0.5"
+    },
+    "devDependencies": {
+      "@levi/eslint-plugin": "workspace:~",
+      "@levi/vite-plugin-levi": "workspace:~",
+      "eslint": "^7.24.0",
+      "vite": "^2.1.5"
+    }
+}
