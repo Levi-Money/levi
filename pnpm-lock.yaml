@@ -10,7 +10,7 @@ importers:
 
   packages/eslint-plugin:
     specifiers:
-      '@levi/eslint-plugin': 1.0.0
+      '@levi/eslint-plugin': workspace:~
       eslint-config-airbnb: ^18.2.1
       eslint-plugin-import: ^2.22.1
       eslint-plugin-vue: ^7.9.0

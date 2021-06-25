@@ -23,7 +23,7 @@
     "eslint-plugin-vue": "^7.9.0"
   },
   "devDependencies": {
-    "@levi/eslint-plugin": "1.0.0"
+    "@levi/eslint-plugin": "workspace:~"
   },
   "peerDependencies": {
     "eslint": "^7.24.0"
