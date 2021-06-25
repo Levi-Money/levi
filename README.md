@@ -2,9 +2,10 @@
 
 Levi monorepo including:
 
+* `@levi/design`: Design system with tokens, assets and more
+* `@levi/eslint-plugin`: Levi ECMAscript lint convention
+* `@levi/vite-plugin-levi`: Levi Vite plugin
 * `@levi/money`: Landing Page
-
-> TIP: VSCode configured workspace `code ./vscode/workspace.code-workspace`
 
 **Summary**
 
