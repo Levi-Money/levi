@@ -1,0 +1,34 @@
+{
+  "extends": [
+    "plugin:@acium/eslint-plugin/base",
+    "plugin:vue/vue3-recommended"
+  ],
+  "ignorePatterns": [
+    "dist/**",
+    "dist-i18n/**"
+  ],
+  "env": {
+    "es2021": true,
+    "browser": true
+  },
+  
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "./vite.config.js",
+          "./windi.config.js"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ]
+}
