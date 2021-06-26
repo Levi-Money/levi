@@ -13,11 +13,11 @@ Levi monorepo including:
 ## Getting Started
 
 ```bash
-make dev
+make
 ```
 
 ## Development
 
 ```bash
-pnpm dev
+make dev
 ```
