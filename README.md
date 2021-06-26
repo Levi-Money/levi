@@ -16,8 +16,8 @@ Levi monorepo including:
 make
 ```
 
-## Development
+## Getting help
 
 ```bash
-make dev
+make help
 ```
