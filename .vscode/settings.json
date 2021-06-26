@@ -1,3 +1,6 @@
 {
-    "deno.path": "deps/deno/bin"
+    "deno.path": "deps/deno/bin",
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.unstable": true
 }
