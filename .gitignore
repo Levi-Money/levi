@@ -9,9 +9,5 @@
 # Ignore all local history of files
 **/.history
 
-### PNPM files ###
-.pnpm-debug.log
-node_modules
-
 ### OS files ###
 .DS_Store

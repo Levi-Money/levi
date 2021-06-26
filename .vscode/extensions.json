@@ -1,8 +1,5 @@
 {
     "recommendations": [
-        "editorconfig.editorconfig",
-        "dbaeumer.vscode-eslint",
-        "octref.vetur",
-        "folke.vscode-monorepo-workspace"
+        "octref.vetur"
     ]
 }
