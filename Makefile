@@ -1,4 +1,4 @@
-.PHONY: deps help
+.PHONY: deps clean help
 
 SHELL=/bin/bash
 DEPS_INSTALL=deps
