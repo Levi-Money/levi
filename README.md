@@ -3,7 +3,7 @@
 Levi monorepo including:
 
 * `@levi/design`: Design system with tokens, assets and more
-* `@levi/money`: Landing Page
+* `@levi/portal`: Web Portal
 
 **Summary**
 
