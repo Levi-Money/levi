@@ -1,19 +1,13 @@
 .PHONY: deps clean help
 
 SHELL=/bin/bash
-DEPS=deps
-BIN=bin
-DENO_VERSION=1.11.2
-DENO_INSTALLER_VERSION=0.1.4
-DEPLOYCTL_VERSION=0.3.0
-export DENO_INSTALL_ROOT=${DEPS}/deno
-export PATH := ${BIN}:${PATH}
 
 ### All ###
 all: deps
 
 ### Env ###
 env:
+	source env.sh
 	export PATH
 	export DENO_INSTALL_ROOT
 
