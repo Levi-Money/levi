@@ -1,37 +1,40 @@
 .PHONY: deps clean help
 
 SHELL=/bin/bash
-DEPS_INSTALL=deps
-DEPS_BIN=${DEPS_INSTALL}/.bin
-DENO_INSTALLER_VERSION=0.1.4
-DENO_INSTALL=${DEPS_INSTALL}/deno
+DEPS=deps
+BIN=bin
 DENO_VERSION=1.11.2
-export PATH := ${DEPS_BIN}:${PATH}
+DENO_INSTALLER_VERSION=0.1.4
+export PATH := ${BIN}:${PATH}
 
 # All #
 all: deps
 
+# Dirs #
+dirs:
+	mkdir -p ${DEPS}
+	mkdir -p ${BIN}
+	export PATH
+
+dirs/clean:
+	rm -r ${BIN}
+	rm -r ${DEPS}
+
 # Deps #
-deps: deps/setup deps/deno
+deps: dirs deps/deno
 
-deps/setup:
-	mkdir ${DEPS_INSTALL}
-	mkdir ${DEPS_BIN}
-
-deps/setup/clean:
-	rm -rf ${DEPS_BIN}
-	rm -rf ${DEPS_INSTALL}
-
-deps/deno: deps/setup
-	curl -fsSL https://deno.land/x/install@v${DENO_INSTALLER_VERSION}/install.sh | DENO_INSTALL=${DENO_INSTALL} sh -s -- v${DENO_VERSION}
+deps/deno: dirs
+	curl -fsSL https://deno.land/x/install@v${DENO_INSTALLER_VERSION}/install.sh | DENO_INSTALL=${DEPS}/deno sh -s -- v${DENO_VERSION}
+	ln -s ../${DEPS}/deno/bin/deno ${BIN}
 
 deps/deno/clean:
-	rm -rf ${DENO_INSTALL}
+	rm ${BIN}/deno
+	rm -r ${DEPS}/deno
 
-deps/clean: deps/deno/clean deps/setup/clean
+deps/clean: deps/deno/clean
 
 # Clean #
-clean: deps/clean
+clean: deps/clean dirs/clean
 
 # Help #
 help:
