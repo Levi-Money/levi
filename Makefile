@@ -40,6 +40,7 @@ deps/deno/clean:
 deps/deployctl: deps/deno
 	deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -f https://deno.land/x/deploy/deployctl.ts
 	ln -s ../${DEPS}/deno/bin/deployctl ${BIN}
+	deployctl --version
 
 deps/deployctl/clean:
 	rm ${BIN/deployctl
