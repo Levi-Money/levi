@@ -23,8 +23,8 @@ const html = `
 </html>
 `;
 
-type ResponseSetter = (output: string) => void
+export type ResponseSetter = (output: string) => void;
 
 export default function portal(setResponse: ResponseSetter) {
-    setResponse(html);
+  setResponse(html);
 }

@@ -1,6 +1,6 @@
 {
-    "recommendations": [
-        "denoland.vscode-deno",
-        "octref.vetur"
-    ]
+  "recommendations": [
+    "denoland.vscode-deno",
+    "octref.vetur"
+  ]
 }
