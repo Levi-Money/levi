@@ -1,13 +1,8 @@
-/// <reference path="../../deps/deployctl/deploy.d.ts" />
+import { serve, serveStatic } from "./deps.ts"
 
-addEventListener("fetch", (event) => {
-    event.respondWith(
-        new Response("Hello from Levi", {
-            status: 200,
-            headers: {
-                server: "denosr",
-                "content-type": "text/plain",
-            },
-        }),
-    );
+serve({
+    // You can serve a single file.
+    "/": serveStatic("public/index.html", { baseUrl: import.meta.url }),
+    // Or a directory of files.
+    "/:filename+": serveStatic("public", { baseUrl: import.meta.url }),
 });
