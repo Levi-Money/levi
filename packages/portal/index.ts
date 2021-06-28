@@ -1,8 +1,30 @@
-import { serve, serveStatic } from "./deps.ts"
+const html = `
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script async src="https://cdn.builder.io/js/webcomponents"></script>
+    <style>
+      #wrapper {
+        padding: 0 20px;
+        margin: 0 auto;
+        max-width: 1200px;
+      }
+    </style>
+  </head>
+  <body>
+    <builder-component
+      id="wrapper"
+      model="page"
+      v-pre
+      api-key="8647192a33eb4fc8aac163e0372c81af" />
+  </body>
+</html>
+`;
 
-serve({
-    // You can serve a single file.
-    "/": serveStatic("public/index.html", { baseUrl: import.meta.url }),
-    // Or a directory of files.
-    "/:filename+": serveStatic("public", { baseUrl: import.meta.url }),
-});
+type ResponseSetter = (output: string) => void
+
+export default function portal(setResponse: ResponseSetter) {
+    setResponse(html);
+}
