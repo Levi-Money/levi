@@ -19,11 +19,6 @@ const html = `
       model="page"
       v-pre
       api-key="8647192a33eb4fc8aac163e0372c81af" />
-    <script>
-      document.querySelector('#wrapper').addEventListener('load', (evt) => {
-        console.log(evt.data)
-      })
-    </script>
   </body>
 </html>
 `;
