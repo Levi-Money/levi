@@ -13,6 +13,7 @@ const html = `
         bottom: 0;
         left: 0;
         margin: 0;
+        overflow-x: hidden;
       }
     </style>
   </head>
