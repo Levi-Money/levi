@@ -6,14 +6,8 @@ const html = `
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script async src="https://cdn.builder.io/js/webcomponents"></script>
     <style>
-      #wrapper {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+      body {
         margin: 0;
-        overflow-x: hidden;
       }
     </style>
     <!-- Google Tag Manager -->
