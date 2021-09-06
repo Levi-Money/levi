@@ -14,7 +14,7 @@ Levi monorepo including:
 
 ```bash
 make
-source env.sh
+source packages/devops/env.sh
 ```
 
 ## Getting help
