@@ -1,5 +1,3 @@
-.PHONY: deps clean help
-
 SHELL=/bin/bash
 DEPS=deps
 BIN=bin
@@ -10,18 +8,22 @@ export DENO_INSTALL_ROOT=${DEPS}/deno
 export PATH := ${BIN}:${PATH}
 
 ### All ###
+.PHONY: all
 all: deps
 
 ### Env ###
+.PHONY: env
 env:
 	export PATH
 	export DENO_INSTALL_ROOT
 
 ### Dirs ###
+.PHONY: dirs
 dirs: env
 	mkdir -p ${DEPS}
 	mkdir -p ${BIN}
 
+.PHONY: dirs/clean
 dirs/clean:
 	rm -r ${BIN}
 	rm -r ${DEPS}
@@ -34,6 +36,7 @@ deps/deno: dirs
 	ln -s ../${DEPS}/deno/bin/deno ${BIN}
 	deno --version
 
+.PHONY: deps/deno/clean
 deps/deno/clean:
 	rm ${BIN}/deno
 	rm -r ${DEPS}/deno
@@ -45,17 +48,21 @@ deps/deployctl: deps/deno
 	mkdir -p ${DEPS}/deployctl
 	deployctl types > ${DEPS}/deployctl/deploy.d.ts
 
+.PHONY: deps/deployctl/clean
 deps/deployctl/clean:
 	rm ${DEPS}/deployctl/deploy.d.ts
 	rm -r ${DEPS}/deployctl
 	rm ${BIN}/deployctl
 	rm ${DEPS}/deno/bin/deployctl
 
+.PHONY: deps/clean
 deps/clean: deps/deployctl/clean deps/deno/clean
 
 ### Clean ###
+.PHONY: clean
 clean: deps/clean dirs/clean
 
 ### Help ###
+.PHONY: help
 help:
 	@echo "Usage: make { all | deps | clean | help }" 1>&2 && false
