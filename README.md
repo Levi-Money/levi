@@ -13,8 +13,7 @@ Levi monorepo including:
 ## Getting Started
 
 ```bash
-make
-source packages/devops/env.sh
+make bash
 ```
 
 ## Getting help
