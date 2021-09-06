@@ -1,68 +1,78 @@
 SHELL=/bin/bash
-DEPS=deps
+VENDOR=vendor
 BIN=bin
 DENO_VERSION=1.11.2
 DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
-export DENO_INSTALL_ROOT=${DEPS}/deno
-export PATH := ${BIN}:${PATH}
+export DENO_INSTALL_ROOT=${VENDOR}/deno
+export PATH := ${PWD}/${BIN}:${PATH}
 
-### All ###
+### all ###
 .PHONY: all
-all: deps
+all: $(BIN)/deno $(BIN)/deployctl
 
-### Env ###
-.PHONY: env
-env:
-	export PATH
-	export DENO_INSTALL_ROOT
+### vendor ###
+$(VENDOR):
+	mkdir $@
 
-### Dirs ###
-.PHONY: dirs
-dirs: env
-	mkdir -p ${DEPS}
-	mkdir -p ${BIN}
+.PHONY: $(VENDOR)/clean
+$(VENDOR)/clean: $(VENDOR)/deployctl/clean $(VENDOR)/deno/clean $(BIN)/clean
+	-rmdir ${VENDOR}
 
-.PHONY: dirs/clean
-dirs/clean:
-	rm -r ${BIN}
-	rm -r ${DEPS}
+### bin ###
+$(BIN):
+	mkdir $@
 
-### Deps ###
-deps: dirs deps/deno deps/deployctl
+.PHONY: $(BIN)/clean
+$(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean
+	-rmdir ${BIN}
 
-deps/deno: dirs
+### **/*/deno ###
+$(VENDOR)/deno: | $(VENDOR)
 	curl -fsSL https://deno.land/x/install@v${DENO_INSTALLER_VERSION}/install.sh | DENO_INSTALL=${DENO_INSTALL_ROOT} sh -s -- v${DENO_VERSION}
-	ln -s ../${DEPS}/deno/bin/deno ${BIN}
+
+.PHONY: $(VENDOR)/deno/clean
+$(VENDOR)/deno/clean:
+	-rm -r ${VENDOR}/deno
+
+$(BIN)/deno: | $(BIN) $(VENDOR)/deno
+	ln -s ../${VENDOR}/deno/bin/deno $@
 	deno --version
 
-.PHONY: deps/deno/clean
-deps/deno/clean:
-	rm ${BIN}/deno
-	rm -r ${DEPS}/deno
+.PHONY: $(BIN)/deno/clean
+$(BIN)/deno/clean:
+	-rm ${BIN}/deno
 
-deps/deployctl: deps/deno
+### **/*/deployctl ###
+$(VENDOR)/deployctl: | $(BIN)/deno
 	@deno install --allow-read --allow-write --allow-env --allow-net --allow-run --no-check -f https://deno.land/x/deploy@${DEPLOYCTL_VERSION}/deployctl.ts
-	ln -s ../${DEPS}/deno/bin/deployctl ${BIN}
+	mkdir $@
+	${VENDOR}/deno/bin/deployctl types > $@/deploy.d.ts
+
+.PHONY: $(VENDOR)/deployctl/clean
+$(VENDOR)/deployctl/clean:
+	-rm ${VENDOR}/deployctl/deploy.d.ts
+	-rm -r ${VENDOR}/deployctl
+	-rm ${VENDOR}/deno/bin/deployctl
+
+$(BIN)/deployctl: | $(BIN) $(VENDOR)/deployctl
+	ln -s ../${VENDOR}/deno/bin/deployctl ${BIN}/deployctl
 	deployctl --version
-	mkdir -p ${DEPS}/deployctl
-	deployctl types > ${DEPS}/deployctl/deploy.d.ts
 
-.PHONY: deps/deployctl/clean
-deps/deployctl/clean:
-	rm ${DEPS}/deployctl/deploy.d.ts
-	rm -r ${DEPS}/deployctl
-	rm ${BIN}/deployctl
-	rm ${DEPS}/deno/bin/deployctl
+.PHONY: $(BIN)/deployctl/clean
+$(BIN)/deployctl/clean:
+	-rm ${BIN}/deployctl
 
-.PHONY: deps/clean
-deps/clean: deps/deployctl/clean deps/deno/clean
-
-### Clean ###
+### clean ###
 .PHONY: clean
-clean: deps/clean dirs/clean
+clean: $(VENDOR)/clean
 
-### Help ###
+### bash ###
+.PHONY: bash
+bash: all
+	bash
+
+### help ###
 .PHONY: help
 help:
-	@echo "Usage: make { all | deps | clean | help }" 1>&2 && false
+	@echo "Usage: make { all | clean | help }" 1>&2 && false
