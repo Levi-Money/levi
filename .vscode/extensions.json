@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "denoland.vscode-deno",
-    "octref.vetur"
+    "octref.vetur",
+    "ms-vscode-remote.remote-containers"
   ]
 }
