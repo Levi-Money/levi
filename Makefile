@@ -6,12 +6,14 @@ DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
 PURS_VERSION=0.14.3
 PURS_HASH=530c2455a5112c209d33aaf93b8836c61897dd6a
+SPAGO_VERSION=0.20.3
+SPAGO_HASH=886071f3edfd10aa3c3c8a3d97ad076feb94cfe7
 export DENO_INSTALL_ROOT=${VENDOR}/deno
 export PATH := ${PWD}/${BIN}:${PATH}
 
 ### all ###
 .PHONY: all
-all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs
+all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs $(BIN)/spago
 
 ### vendor ###
 $(VENDOR):
@@ -26,7 +28,7 @@ $(BIN):
 	mkdir $@
 
 .PHONY: $(BIN)/clean
-$(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean $(BIN)/purs/clean
+$(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean $(BIN)/purs/clean $(BIN)/spago/clean
 	-rmdir ${BIN}
 
 ### **/*/deno ###
@@ -85,6 +87,19 @@ $(BIN)/purs: | $(BIN) $(VENDOR)/purescript
 .PHONY: $(BIN)/purs/clean
 $(BIN)/purs/clean:
 	-rm ${BIN}/purs
+
+### **/*/spago ###
+$(BIN)/spago: | $(BIN)
+	curl -o /tmp/spago_Linux.tar.gz -fSL https://github.com/purescript/spago/releases/download/${SPAGO_VERSION}/Linux.tar.gz
+	shasum /tmp/spago_Linux.tar.gz | grep ${SPAGO_HASH}
+	tar -xzf /tmp/spago_Linux.tar.gz -C ${BIN}
+	chmod +x ${BIN}/spago
+	rm /tmp/spago_Linux.tar.gz
+	spago --version
+
+.PHONY: $(BIN)/spago/clean
+$(BIN)/spago/clean:
+	-rm ${BIN}/spago
 
 ### clean ###
 .PHONY: clean
