@@ -20,7 +20,8 @@ Levi monorepo including:
 ## Getting Started
 
 ```bash
-make bash
+make
+make build
 ```
 
 > :bulb: VSCode ready workspace `code ./.vscode/workspace.code-workspace`

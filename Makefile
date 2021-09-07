@@ -1,6 +1,7 @@
 SHELL=/bin/bash
 VENDOR=vendor
 BIN=bin
+PACKAGES=packages
 DENO_VERSION=1.11.2
 DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
@@ -15,7 +16,7 @@ export PATH := ${PWD}/${BIN}:${PATH}
 
 ### all ###
 .PHONY: all
-all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs $(BIN)/spago
+all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs $(BIN)/spago $(PACKAGES)/game/.spago
 
 ### vendor ###
 $(VENDOR):
@@ -103,16 +104,44 @@ $(BIN)/spago: | $(BIN)
 $(BIN)/spago/clean:
 	-rm ${BIN}/spago
 
-### clean ###
-.PHONY: clean
-clean: $(VENDOR)/clean
-
 ### bash ###
 .PHONY: bash
 bash: all
 	bash
 
+### build ###
+.PHONY: build
+build: $(PACKAGES)/game/index.js
+
+## Spago ###
+
+### **/.spago (spago install) ###
+%/.spago: packages.dhall %/spago.dhall | $(BIN)/spago
+	cd $(@D); spago install;
+	touch $@
+.PHONY: %/.spago/clean
+%/.spago/clean:
+	-rm -rf $(@D)
+
+### **/output (spago build) ###
+%/output: %/.spago | $(BIN)/spago
+	cd $(@D); spago build;
+.PHONY: %/output/clean
+%/output/clean: %/.spago/clean
+	-rm -r $(@D)
+
+### **/index.js (spago bundle-app) ###
+%/index.js: %/.spago | $(BIN)/spago
+	cd $(@D); spago bundle-app;
+.PHONY: %/index.js/clean
+%/index.js/clean: %/output/clean
+	-rm $(@D)
+
+### clean ###
+.PHONY: clean
+clean: $(VENDOR)/clean $(PACKAGES)/game/index.js/clean
+
 ### help ###
 .PHONY: help
 help:
-	@echo "Usage: make { all | clean | help }" 1>&2 && false
+	@echo "Usage: make { all | build | clean | help }" 1>&2 && false
