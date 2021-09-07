@@ -4,6 +4,7 @@ Levi monorepo including:
 
 - `@levi/design`: Design system with tokens, assets and more
 - `@levi/portal`: Web Portal
+- `@levi/game`: Levi Game
 
 **Summary**
 
