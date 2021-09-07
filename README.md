@@ -14,6 +14,7 @@ Levi monorepo including:
 
 1. Linux (or WSL)
 2. GNU Make
+3. CURL
 
 ## Getting Started
 
