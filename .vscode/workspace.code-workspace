@@ -1,0 +1,20 @@
+{
+    "folders": [
+        {
+            "name": "levi",
+            "path": ".."
+        },
+        {
+            "name": "@levi/design",
+            "path": "../packages/design"
+        },
+        {
+            "name": "@levi/game",
+            "path": "../packages/game"
+        },
+        {
+            "name": "@levi/portal",
+            "path": "../packages/portal"
+        }
+    ]
+}
