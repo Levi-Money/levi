@@ -1,6 +1,7 @@
 {
   "recommendations": [
-    "octref.vetur",
-    "ms-vscode-remote.remote-containers"
+    "denoland.vscode-deno",
+    "nwolverson.ide-purescript",
+    "nwolverson.language-purescript"
   ]
 }
