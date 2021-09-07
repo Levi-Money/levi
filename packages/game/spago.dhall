@@ -12,6 +12,6 @@ to generate this file without the comments in this block.
 -}
 { name = "game"
 , dependencies = [ "console", "effect", "prelude", "psci-support" ]
-, packages = ./packages.dhall
+, packages = ../../packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }
