@@ -10,6 +10,11 @@ Levi monorepo including:
 1. [Getting Started](#getting-started)
 2. [Development](#development)
 
+## Requeriments
+
+1. Linux (or WSL)
+2. GNU Make
+
 ## Getting Started
 
 ```bash
