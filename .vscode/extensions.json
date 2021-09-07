@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "denoland.vscode-deno",
+    "dhall.dhall-lang",
     "nwolverson.ide-purescript",
     "nwolverson.language-purescript"
   ]
