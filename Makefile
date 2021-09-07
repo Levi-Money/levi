@@ -4,19 +4,21 @@ BIN=bin
 DENO_VERSION=1.11.2
 DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
+PURS_VERSION=0.14.3
+PURS_HASH=530c2455a5112c209d33aaf93b8836c61897dd6a
 export DENO_INSTALL_ROOT=${VENDOR}/deno
 export PATH := ${PWD}/${BIN}:${PATH}
 
 ### all ###
 .PHONY: all
-all: $(BIN)/deno $(BIN)/deployctl
+all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs
 
 ### vendor ###
 $(VENDOR):
 	mkdir $@
 
 .PHONY: $(VENDOR)/clean
-$(VENDOR)/clean: $(VENDOR)/deployctl/clean $(VENDOR)/deno/clean $(BIN)/clean
+$(VENDOR)/clean: $(VENDOR)/deployctl/clean $(VENDOR)/deno/clean $(VENDOR)/purescript/clean $(BIN)/clean
 	-rmdir ${VENDOR}
 
 ### bin ###
@@ -24,7 +26,7 @@ $(BIN):
 	mkdir $@
 
 .PHONY: $(BIN)/clean
-$(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean
+$(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean $(BIN)/purs/clean
 	-rmdir ${BIN}
 
 ### **/*/deno ###
@@ -62,6 +64,27 @@ $(BIN)/deployctl: | $(BIN) $(VENDOR)/deployctl
 .PHONY: $(BIN)/deployctl/clean
 $(BIN)/deployctl/clean:
 	-rm ${BIN}/deployctl
+
+### **/*/purescript ###
+$(VENDOR)/purescript: | $(VENDOR)
+	curl -o /tmp/purescript_linux64.tar.gz -fSL https://github.com/purescript/purescript/releases/download/v${PURS_VERSION}/linux64.tar.gz
+	shasum /tmp/purescript_linux64.tar.gz | grep ${PURS_HASH}
+	tar -xzf /tmp/purescript_linux64.tar.gz -C ${VENDOR}
+	chmod +x ${VENDOR}/purescript/purs
+	rm /tmp/purescript_linux64.tar.gz
+
+.PHONY: $(VENDOR)/purescript/clean
+$(VENDOR)/purescript/clean:
+	-rm -r ${VENDOR}/purescript
+
+### **/*/purs ###
+$(BIN)/purs: | $(BIN) $(VENDOR)/purescript
+	ln -s ../${VENDOR}/purescript/purs ${BIN}/purs
+	purs --version
+
+.PHONY: $(BIN)/purs/clean
+$(BIN)/purs/clean:
+	-rm ${BIN}/purs
 
 ### clean ###
 .PHONY: clean
