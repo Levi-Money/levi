@@ -8,5 +8,14 @@
   },
   "files.watcherExclude": {
     "**/.spago/**": true
+  },
+  "terminal.integrated.env.linux": {
+    "PATH": "${workspaceFolder}/bin:${env:PATH}"
+  },
+  "terminal.integrated.env.windows": {
+    "PATH": "${workspaceFolder}/bin:${env:PATH}"
+  },
+  "terminal.integrated.env.osx": {
+    "PATH": "${workspaceFolder}/bin:${env:PATH}"
   }
 }
