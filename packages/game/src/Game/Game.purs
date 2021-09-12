@@ -6,6 +6,7 @@ import Effect.Console (log)
 import Signal (Signal, runSignal, foldp, sampleOn, map2)
 import Signal.DOM (keyPressed)
 import Signal.Time (second, every)
+import Engine.Web (clear)
 
 type State = Int
 
@@ -13,7 +14,9 @@ update :: Int -> State -> State
 update dir state = state + dir
 
 render :: State -> Effect Unit
-render state = log ("state: " <> (show state))
+render state = do
+    log $ "rendering state: " <> (show state)
+    clear
 
 inputDirSignal :: Effect (Signal Int)
 inputDirSignal = 

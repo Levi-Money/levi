@@ -12,7 +12,15 @@ to generate this file without the comments in this block.
 -}
 { name = "game"
 , dependencies =
-  [ "console", "effect", "partial", "prelude", "psci-support", "signal" ]
+  [ "canvas"
+  , "console"
+  , "effect"
+  , "exceptions"
+  , "maybe"
+  , "prelude"
+  , "psci-support"
+  , "signal"
+  ]
 , packages = ../../packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }
