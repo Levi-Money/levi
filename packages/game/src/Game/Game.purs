@@ -12,8 +12,8 @@ type State = Int
 update :: Int -> State -> State
 update dir m = m + dir
 
-render :: forall e. State -> Effect Unit
-render m = log ("m: " <> (show m))
+render :: State -> Effect Unit
+render state = log ("state: " <> (show state))
 
 inputDirSignal :: Effect (Signal Int)
 inputDirSignal = 
