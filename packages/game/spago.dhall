@@ -11,7 +11,8 @@ When creating a new Spago project, you can use
 to generate this file without the comments in this block.
 -}
 { name = "game"
-, dependencies = [ "console", "effect", "prelude", "psci-support", "web-html" ]
+, dependencies =
+  [ "console", "effect", "prelude", "psci-support", "refs", "web-html" ]
 , packages = ../../packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }
