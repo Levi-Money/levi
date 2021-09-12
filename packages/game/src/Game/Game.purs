@@ -1,29 +1,36 @@
 module Game where
 
 import Prelude
-
 import Effect (Effect)
-import Effect.Ref (Ref, new, read)
+import Effect.Console (log)
+import Signal (Signal, runSignal, foldp, sampleOn, map2)
+import Signal.DOM (keyPressed)
+import Signal.Time (second, every)
 
-type World = {
-    x :: Number
-}
+type State = Int
 
-type WorldRef = Ref World
+update :: Int -> State -> State
+update dir m = m + dir
 
-genWorld :: Effect WorldRef
-genWorld = new { x: 0.0 }
+render :: forall e. State -> Effect Unit
+render m = log ("m: " <> (show m))
 
-readWorld :: WorldRef -> Effect World
-readWorld = read
+inputDirSignal :: Effect (Signal Int)
+inputDirSignal = 
+    let 
+        f = \l r -> if l 
+                    then -1 
+                    else if r
+                         then 1
+                         else 0
+    in
+      map2 f <$> (keyPressed 37) <*> (keyPressed 39)
 
-updateWorld :: WorldRef -> Effect World
-updateWorld stateRef = do
-    state <- read stateRef
-    pure { x: state.x + 1.0 }
+inputSignal :: Effect (Signal Int)
+inputSignal = sampleOn (every second) <$> inputDirSignal
 
-resume :: forall frame. (Effect Unit -> Effect frame) -> WorldRef -> Effect Unit
-resume reqFrame world = do
-  _ <- updateWorld world
-  frame <- reqFrame $ resume reqFrame world
-  pure unit
+resume :: Effect Unit
+resume = do
+    dirSignal <- inputSignal
+    let game = foldp update 0 dirSignal
+    runSignal (map render game)
