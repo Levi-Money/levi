@@ -10,7 +10,7 @@ import Signal.Time (second, every)
 type State = Int
 
 update :: Int -> State -> State
-update dir m = m + dir
+update dir state = state + dir
 
 render :: State -> Effect Unit
 render state = log ("state: " <> (show state))
