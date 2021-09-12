@@ -1,12 +1,13 @@
 module Game where
 
 import Prelude
+
 import Effect (Effect)
 import Effect.Console (log)
+import Engine.Web (clear)
 import Signal (Signal, runSignal, foldp, sampleOn, map2)
 import Signal.DOM (keyPressed)
-import Signal.Time (second, every)
-import Engine.Web (clear)
+import Signal.Time (Time, every, second)
 
 type State = Int
 
@@ -17,6 +18,9 @@ render :: State -> Effect Unit
 render state = do
     log $ "rendering state: " <> (show state)
     clear
+
+fps :: Time -> Signal Time
+fps x = every (second/x)
 
 inputDirSignal :: Effect (Signal Int)
 inputDirSignal = 
@@ -30,7 +34,7 @@ inputDirSignal =
       map2 f <$> (keyPressed 37) <*> (keyPressed 39)
 
 inputSignal :: Effect (Signal Int)
-inputSignal = sampleOn (every second) <$> inputDirSignal
+inputSignal = sampleOn (fps 20.0) <$> inputDirSignal
 
 resume :: Effect Unit
 resume = do
