@@ -10,23 +10,32 @@ import Engine.Web as E
 import Game.Input (Touch) as I
 import Math (pi)
 
-type State = Number
+type State = {
+    x :: Number,
+    y :: Number
+}
 
-initState :: Effect Number
-initState = pure 0.0
+initState :: Effect State
+initState = pure {
+    x: 50.0,
+    y: 50.0
+}
 
 update :: Array I.Touch -> State -> State
 update touchs state = case last touchs  of
-    Just touch -> toNumber touch.clientX
+    Just touch -> {
+        x: toNumber touch.clientX,
+        y: toNumber touch.clientY
+    }
     Nothing -> state
 
 render :: State -> E.State -> Effect Unit
 render state engineState = do
     E.setColor engineState "#FFCF00"
     E.drawArc engineState {
-        x: 50.0 + state,
-        y: 100.0,
+        x: state.x,
+        y: state.y,
         start: 0.0,
         end: 2.0 * pi,
-        radius: 50.0
+        radius: 30.0
     }
