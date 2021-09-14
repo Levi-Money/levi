@@ -12,10 +12,12 @@ to generate this file without the comments in this block.
 -}
 { name = "game"
 , dependencies =
-  [ "canvas"
+  [ "arrays"
+  , "canvas"
   , "console"
   , "effect"
   , "exceptions"
+  , "integers"
   , "math"
   , "maybe"
   , "prelude"
