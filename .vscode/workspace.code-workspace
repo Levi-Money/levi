@@ -19,13 +19,13 @@
     ],
     "settings": {
         "terminal.integrated.env.linux": {
-            "PATH": "${fileWorkspaceFolder}/bin:${env:PATH}"
+            "PATH": "${workspaceFolder}/.bin:${env:PATH}"
         },
         "terminal.integrated.env.windows": {
-            "PATH": "${fileWorkspaceFolder}/bin:${env:PATH}"
+            "PATH": "${workspaceFolder}/.bin:${env:PATH}"
         },
         "terminal.integrated.env.osx": {
-            "PATH": "${fileWorkspaceFolder}/bin:${env:PATH}"
+            "PATH": "${workspaceFolder}/.bin:${env:PATH}"
         }
     }
 }
