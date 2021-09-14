@@ -4,7 +4,6 @@ import Prelude
 
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
-import Effect.Console (log)
 import Effect.Exception (throw)
 import Graphics.Canvas as C
 
@@ -44,7 +43,9 @@ clear {canvas: {context, width, height}} = C.clearRect context {
 
 drawArc :: State -> Arc -> Effect Unit
 drawArc {canvas: { context }} arc = do
+    C.setFillStyle context "#F00"
+    C.setStrokeStyle context "#F00"
+    C.beginPath context
     C.arc context arc
-    C.setFillStyle context "#000000"
-    C.setStrokeStyle context "#000000"
-    -- log $  "Drawing arc: " <> show arc.x
+    C.stroke context
+    C.fill context
