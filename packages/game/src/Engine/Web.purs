@@ -41,10 +41,13 @@ clear {canvas: {context, width, height}} = C.clearRect context {
     height
 }
 
+setColor :: State -> String -> Effect Unit
+setColor {canvas: { context }} color = do
+    C.setFillStyle context color
+    C.setStrokeStyle context color
+
 drawArc :: State -> Arc -> Effect Unit
 drawArc {canvas: { context }} arc = do
-    C.setFillStyle context "#F00"
-    C.setStrokeStyle context "#F00"
     C.beginPath context
     C.arc context arc
     C.stroke context
