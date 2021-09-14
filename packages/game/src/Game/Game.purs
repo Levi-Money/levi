@@ -10,7 +10,7 @@ import Game.Input (Touch, State, initState, touch) as I
 import Game.Coin (State, initState, update, render) as Coin
 
 type State = {
-    input ::I.State,
+    input :: I.State,
     engine :: E.State,
     coin :: Coin.State
 }
@@ -38,5 +38,6 @@ render state = do
 resume :: Effect Unit
 resume = do
     state <- initState
-    let game = S.foldp update state I.touch
+    touchSignal <- I.touch
+    let game = S.foldp update state touchSignal
     S.runSignal (map render game)
