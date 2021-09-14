@@ -5,11 +5,11 @@ PACKAGES=packages
 DENO_VERSION=1.11.2
 DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
-PURS_VERSION=0.14.3
+PURS_VERSION=0.14.4
 SPAGO_VERSION=0.20.3
 # If some hash is missing on the upstream, one can use
 # the following command get the hash: shasum <file>
-PURS_HASH=530c2455a5112c209d33aaf93b8836c61897dd6a
+PURS_HASH=02b11e76de5cf0c4262ab69586ccc5de89c9afea
 SPAGO_HASH=886071f3edfd10aa3c3c8a3d97ad076feb94cfe7
 export DENO_INSTALL_ROOT=${VENDOR}/deno
 export PATH := ${PWD}/${BIN}:${PATH}
