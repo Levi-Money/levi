@@ -3,7 +3,7 @@ module Game where
 import Prelude
 
 import Effect (Effect)
-import Effect.Console (log)
+import Debug (traceM)
 import Signal (foldp, runSignal) as S
 import Engine.Web (State, initState, clear) as E
 import Game.Input (Touch, State, initState, touch) as I
@@ -31,7 +31,7 @@ update touchs state = {
  
 render :: State -> Effect Unit
 render state = do
-    log $ "rendering"
+    traceM state
     E.clear state.engine
     Coin.render state.coin state.engine
 
