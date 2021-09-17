@@ -10,9 +10,9 @@ import Game.Input (Touch, State, initState, touch) as I
 import Game.Coin (State, initState, update, render) as Coin
 
 type State = {
-    input :: I.State,
-    engine :: E.State,
-    coin :: Coin.State
+      input :: I.State
+    , engine :: E.State
+    , coin :: Coin.State
 }
 
 initState :: Effect State
@@ -24,9 +24,9 @@ initState = do
 
 update :: Array I.Touch -> State -> State
 update touchs state = {
-    engine: state.engine,
-    input: { touchs },
-    coin: Coin.update touchs state.coin
+      engine: state.engine
+    , input: { touchs }
+    , coin: Coin.update touchs state.coin
 }
  
 render :: State -> Effect Unit

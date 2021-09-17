@@ -12,10 +12,10 @@ type Dimensions = C.Dimensions
 type Rectangle = C.Rectangle
 type Arc = C.Arc
 type StateCanvas = {
-    element :: C.CanvasElement ,
-    context :: Context ,
-    width :: Number,
-    height :: Number
+      element :: C.CanvasElement
+    , context :: Context
+    , width :: Number
+    , height :: Number
 }
 type State = {
     canvas :: StateCanvas
@@ -35,10 +35,10 @@ initState = getCanvasElement >>= case _ of
     
 clear :: State -> Effect Unit
 clear {canvas: {context, width, height}} = C.clearRect context {
-    x: 0.0,
-    y: 0.0,
-    width,
-    height
+      x: 0.0
+    , y: 0.0
+    , width
+    , height
 }
 
 setColor :: State -> String -> Effect Unit
