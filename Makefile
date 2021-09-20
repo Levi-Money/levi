@@ -15,7 +15,7 @@ export DENO_INSTALL_ROOT=${VENDOR}/deno
 export PATH := ${PWD}/${BIN}:${PATH}
 
 DENO_PKGS = ${PACKAGES}/portal
-SPAGO_PKGS = ${PACKAGES}/game
+SPAGO_PKGS = ${PACKAGES}/app
 
 DENO_ALL = $(foreach PKG,$(DENO_PKGS),$(addsuffix /$(BIN),$(PKG)))
 SPAGO_ALL = $(foreach PKG,$(SPAGO_PKGS),$(addsuffix /$(BIN),$(PKG))) $(foreach PKG,$(SPAGO_PKGS),$(addsuffix /.spago,$(PKG)))
@@ -124,7 +124,7 @@ bash: all
 
 ### build ###
 .PHONY: build
-build: $(PACKAGES)/game/index.js
+build: $(PACKAGES)/app/index.js
 
 ### PureScript  ###
 
@@ -155,7 +155,7 @@ build: $(PACKAGES)/game/index.js
 
 ### clean ###
 .PHONY: clean
-clean: $(VENDOR)/clean $(PACKAGES)/game/index.js/clean
+clean: $(VENDOR)/clean $(PACKAGES)/app/index.js/clean
 
 ### help ###
 .PHONY: help
