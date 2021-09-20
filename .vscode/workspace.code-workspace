@@ -9,8 +9,8 @@
             "path": "../packages/design"
         },
         {
-            "name": "@levi/game",
-            "path": "../packages/game"
+            "name": "@levi/app",
+            "path": "../packages/app"
         },
         {
             "name": "@levi/portal",
