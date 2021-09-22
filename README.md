@@ -32,3 +32,29 @@ make build
 ```bash
 make help
 ```
+
+### Architecture
+
+```
+Package
+-----------------------------------------------------------------
+| Module                                                        |
+|                                                               |
+| == Client Context ==                                          | 
+| ----------------------------                                  |
+| | Pages                    |   ----------   ------------      |
+| |                          ==> | Routes |   | EventBus |      |
+| | ------------------------ |   ----------   ------------      |
+| | | Pure Component       | |   ---------------                |
+| | ------------------------ <== | Composables |                |
+| |                     /\   |   ---------------                |
+| ----------------------||----                                  |
+|                       ||                                      |
+| == Server Context ==  ||                                      |
+| ----------------------||----                                  |
+| | Middlewares         \/   |                                  |
+| ----------------------------                                  |
+-----------------------------------------------------------------
+```
+
+So that everything is JavaScript, and we try to put composables and middlewares as PureScript side-effect free functions ASAP. In future we want to have everything in PureScript.
