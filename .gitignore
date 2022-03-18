@@ -14,5 +14,5 @@
 .DS_Store
 
 ## Project files ##
+.bin
 /vendor
-/bin

@@ -1,22 +1,28 @@
 SHELL=/bin/bash
 VENDOR=vendor
-BIN=bin
+BIN=.bin
 PACKAGES=packages
 DENO_VERSION=1.11.2
 DENO_INSTALLER_VERSION=0.1.4
 DEPLOYCTL_VERSION=0.3.0
-PURS_VERSION=0.14.3
+PURS_VERSION=0.14.4
 SPAGO_VERSION=0.20.3
 # If some hash is missing on the upstream, one can use
 # the following command get the hash: shasum <file>
-PURS_HASH=530c2455a5112c209d33aaf93b8836c61897dd6a
+PURS_HASH=02b11e76de5cf0c4262ab69586ccc5de89c9afea
 SPAGO_HASH=886071f3edfd10aa3c3c8a3d97ad076feb94cfe7
 export DENO_INSTALL_ROOT=${VENDOR}/deno
 export PATH := ${PWD}/${BIN}:${PATH}
 
+DENO_PKGS = ${PACKAGES}/portal
+SPAGO_PKGS = ${PACKAGES}/game
+
+DENO_ALL = $(foreach PKG,$(DENO_PKGS),$(addsuffix /$(BIN),$(PKG)))
+SPAGO_ALL = $(foreach PKG,$(SPAGO_PKGS),$(addsuffix /$(BIN),$(PKG))) $(foreach PKG,$(SPAGO_PKGS),$(addsuffix /.spago,$(PKG)))
+
 ### all ###
 .PHONY: all
-all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs $(BIN)/spago $(PACKAGES)/game/.spago
+all: $(BIN)/deno $(BIN)/deployctl $(BIN)/purs $(BIN)/spago $(DENO_ALL) $(SPAGO_ALL)
 
 ### vendor ###
 $(VENDOR):
@@ -26,13 +32,20 @@ $(VENDOR):
 $(VENDOR)/clean: $(VENDOR)/deployctl/clean $(VENDOR)/deno/clean $(VENDOR)/purescript/clean $(BIN)/clean
 	-rmdir ${VENDOR}
 
-### bin ###
+### **/*/bin ###
 $(BIN):
 	mkdir $@
 
 .PHONY: $(BIN)/clean
 $(BIN)/clean: $(BIN)/deployctl/clean $(BIN)/deno/clean $(BIN)/purs/clean $(BIN)/spago/clean
 	-rmdir ${BIN}
+
+%/.bin: $(BIN)
+	ln -s ../../$(BIN) $@
+
+.PHONY: %/.bin/clean
+%/.bin/clean: $(BIN)/clean
+	-rm $(@D)
 
 ### **/*/deno ###
 $(VENDOR)/deno: | $(VENDOR)
@@ -92,7 +105,7 @@ $(BIN)/purs/clean:
 	-rm ${BIN}/purs
 
 ### **/*/spago ###
-$(BIN)/spago: | $(BIN)
+$(BIN)/spago: | $(BIN)  
 	curl -o /tmp/spago_Linux.tar.gz -fSL https://github.com/purescript/spago/releases/download/${SPAGO_VERSION}/Linux.tar.gz
 	shasum /tmp/spago_Linux.tar.gz | grep ${SPAGO_HASH}
 	tar -xzf /tmp/spago_Linux.tar.gz -C ${BIN}
@@ -113,19 +126,21 @@ bash: all
 .PHONY: build
 build: $(PACKAGES)/game/index.js
 
-## Spago ###
+### PureScript  ###
 
 ### **/.spago (spago install) ###
-%/.spago: packages.dhall %/spago.dhall | $(BIN)/spago
+%/.spago: packages.dhall %/spago.dhall %/.bin | $(BIN)/spago
 	cd $(@D); spago install;
 	touch $@
-.PHONY: %/.spago/clean
+
+.PHONY: %/.spago/clean %/$(BIN)/clean
 %/.spago/clean:
 	-rm -rf $(@D)
 
 ### **/output (spago build) ###
 %/output: %/.spago | $(BIN)/spago
 	cd $(@D); spago build;
+
 .PHONY: %/output/clean
 %/output/clean: %/.spago/clean
 	-rm -r $(@D)
@@ -133,6 +148,7 @@ build: $(PACKAGES)/game/index.js
 ### **/index.js (spago bundle-app) ###
 %/index.js: %/.spago | $(BIN)/spago
 	cd $(@D); spago bundle-app;
+
 .PHONY: %/index.js/clean
 %/index.js/clean: %/output/clean
 	-rm $(@D)
