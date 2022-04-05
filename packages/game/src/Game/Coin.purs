@@ -3,39 +3,41 @@ module Game.Coin where
 import Prelude
 
 import Effect (Effect)
+import Record (merge)
 import Data.Array (last)
-import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
+import Math (pi)
 import Engine.Web as E
 import Game.Input (Touch) as I
-import Math (pi)
 
 type State = {
-      x :: Number
-    , y :: Number
+      position :: E.Point
+    , enabled :: Boolean
 }
 
 initState :: Effect State
 initState = pure {
-      x: 50.0
-    , y: 50.0
+      position: E.makePoint 0 0
+    , enabled: false
 }
 
 update :: Array I.Touch -> State -> State
-update touchs state = case last touchs  of
-    Just touch -> {
-          x: toNumber touch.clientX
-        , y: toNumber touch.clientY
-    }
+update touchs state
+  | state.enabled = case last touchs of
+    Just { clientX, clientY } -> merge {
+        position: E.makePoint clientX clientY
+    } state
     Nothing -> state
+  | otherwise = state
 
 render :: State -> E.State -> Effect Unit
-render state engineState = do
+render { position, enabled } engineState
+  | enabled = do
     E.setColor engineState "#FFCF00"
     E.drawArc engineState {
-          x: state.x
-        , y: state.y
+          position
         , start: 0.0
         , end: 2.0 * pi
         , radius: 30.0
     }
+  | otherwise = pure unit

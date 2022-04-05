@@ -15,6 +15,7 @@ to generate this file without the comments in this block.
   [ "arrays"
   , "canvas"
   , "console"
+  , "debug"
   , "effect"
   , "exceptions"
   , "integers"
@@ -22,6 +23,7 @@ to generate this file without the comments in this block.
   , "maybe"
   , "prelude"
   , "psci-support"
+  , "record"
   , "signal"
   ]
 , packages = ../../packages.dhall

@@ -3,14 +3,22 @@ module Engine.Web where
 import Prelude
 
 import Data.Maybe (Maybe(..))
+import Data.Int (toNumber)
 import Effect (Effect)
 import Effect.Exception (throw)
 import Graphics.Canvas as C
 
 type Context = C.Context2D
-type Dimensions = C.Dimensions
-type Rectangle = C.Rectangle
-type Arc = C.Arc
+type Point = {
+      x :: Int
+    , y :: Int
+}
+type Arc = {
+      position :: Point
+    , start :: Number
+    , end :: Number
+    , radius :: Number
+}
 type StateCanvas = {
       element :: C.CanvasElement
     , context :: Context
@@ -20,6 +28,9 @@ type StateCanvas = {
 type State = {
     canvas :: StateCanvas
 }
+
+makePoint :: Int -> Int -> Point
+makePoint x y = { x, y }
 
 getCanvasElement :: Effect (Maybe C.CanvasElement)
 getCanvasElement = C.getCanvasElementById "game"
@@ -46,9 +57,18 @@ setColor {canvas: { context }} color = do
     C.setFillStyle context color
     C.setStrokeStyle context color
 
+toCanvasArc :: Arc -> C.Arc
+toCanvasArc { position, start, end, radius } = {
+      x: toNumber position.x
+    , y: toNumber position.y
+    , start
+    , end
+    , radius
+}
+
 drawArc :: State -> Arc -> Effect Unit
 drawArc {canvas: { context }} arc = do
     C.beginPath context
-    C.arc context arc
+    C.arc context $ toCanvasArc arc
     C.stroke context
     C.fill context
